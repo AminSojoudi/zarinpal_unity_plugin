@@ -1,5 +1,5 @@
 using System;
-namespace Soomla
+namespace ZarinpalIAB
 {
 		public interface IManifestTools
     {

@@ -21,7 +21,7 @@ using System.Xml;
 using System.Text;
 using System.Collections.Generic;
 
-namespace Soomla.Store
+namespace ZarinpalIAB.Store
 {
 #if UNITY_EDITOR
 	[InitializeOnLoad]
@@ -29,28 +29,15 @@ namespace Soomla.Store
 	public class StoreManifestTools : IManifestTools
     {
 #if UNITY_EDITOR
-		static StoreManifestTools instance = new StoreManifestTools();
+		public static StoreManifestTools Instance = new StoreManifestTools();
         private static ZarinpalConfig setting;
 
-        static StoreManifestTools()
-		{
-			ZarinpalManifestTools.ManTools.Add(instance);
-		}
 
 		public void ClearManifest(){
 			RemoveZarinpalBPFromManifest();
         }
 		public void UpdateManifest() {
-			HandleZarinpalBPManifest ();
-        }
-
-		public void HandleZarinpalBPManifest()
-		{
-			if (StoreSettings.Enable) {
-				AddZarinpalBPToManifest();
-			} else {
-				RemoveZarinpalBPFromManifest();
-			}
+			AddZarinpalBPToManifest();
 		}
 
 		private void AddZarinpalBPToManifest(){

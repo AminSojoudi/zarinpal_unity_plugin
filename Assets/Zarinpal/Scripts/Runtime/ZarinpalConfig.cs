@@ -4,40 +4,10 @@ using UnityEngine;
 
 public class ZarinpalConfig : ScriptableObject
 {
-    [SerializeField] private string _merchantID;
-    [SerializeField] private bool _autoVerifyPurchase = true;
-    [SerializeField] private string _scheme = "return";
-    [SerializeField] private string _host = "zarinpalpayment";
-    [SerializeField] private bool _logEnabled = true;
-    [SerializeField] private bool _enable = true;
-
-    public string MerchantID
-    {
-        get { return _merchantID; }
-    }
-
-    public bool AutoVerifyPurchase
-    {
-        get { return _autoVerifyPurchase; }
-    }
-
-    public string Scheme
-    {
-        get { return _scheme; }
-    }
-
-    public string Host
-    {
-        get { return _host; }
-    }
-
-    public bool LogEnabled
-    {
-        get { return _logEnabled; }
-    }
-
-    public bool Enable
-    {
-        get { return _enable; }
-    }
+    public string MerchantID;
+    public bool AutoVerifyPurchase = true;
+    public string Scheme = "return";
+    public string Host = "zarinpalpayment";
+    public bool LogEnabled = true;
+    public bool Enable = true;
 }

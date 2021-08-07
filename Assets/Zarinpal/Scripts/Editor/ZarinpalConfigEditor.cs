@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Soomla;
+using ZarinpalIAB;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,12 +15,12 @@ public class ZarinpalConfigEditor : Editor
     public override void OnInspectorGUI()
     {
         var color = GUI.color;
-        var _enableProp = serializedObject.FindProperty("_enable");
-        var merchantIDProp = serializedObject.FindProperty("_merchantID");
-        var autoVerifyProp = serializedObject.FindProperty("_autoVerifyPurchase");
-        var _schemeProp = serializedObject.FindProperty("_scheme");
-        var _hostProp = serializedObject.FindProperty("_host");
-        var logEnabled = serializedObject.FindProperty("_logEnabled");
+        var _enableProp = serializedObject.FindProperty("Enable");
+        var merchantIDProp = serializedObject.FindProperty("MerchantID");
+        var autoVerifyProp = serializedObject.FindProperty("AutoVerifyPurchase");
+        var _schemeProp = serializedObject.FindProperty("Scheme");
+        var _hostProp = serializedObject.FindProperty("Host");
+        var logEnabled = serializedObject.FindProperty("LogEnabled");
 
 
         EditorGUI.BeginChangeCheck();
@@ -112,7 +112,7 @@ public class ZarinpalConfigEditor : Editor
         }
         if (GUILayout.Button("Update Manifest & Files"))
         {
-            ApplySettings(!_enableProp.boolValue, !_enableProp.boolValue);
+            ApplySettings(!_enableProp.boolValue, !_enableProp.boolValue, _enableProp.boolValue);
             m_changed = false;
         }
 
@@ -149,6 +149,10 @@ public class ZarinpalConfigEditor : Editor
         if (addZarrinpalToManifest)
         {
             ZarinpalManifestTools.AddZarrinpalToManifest();
+        }
+        else
+        {
+            ZarinpalManifestTools.RemoveZarrinpalFromManifest();
         }
 
         AssetDatabase.Refresh();

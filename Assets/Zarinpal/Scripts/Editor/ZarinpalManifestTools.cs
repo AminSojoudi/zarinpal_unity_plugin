@@ -7,8 +7,9 @@ using System.Xml;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using ZarinpalIAB.Store;
 
-namespace Soomla
+namespace ZarinpalIAB
 {
     public class ZarinpalManifestTools
     {
@@ -41,6 +42,9 @@ namespace Soomla
                 File.Copy(inputFile, outputFile);
             }
 
+            ManTools = new List<IManifestTools>();
+            ManTools.Add(StoreManifestTools.Instance);
+
             UpdateManifest();
         }
 
@@ -70,6 +74,9 @@ namespace Soomla
 
                 File.Copy(inputFile, outputFile);
             }
+
+            ManTools = new List<IManifestTools>();
+            ManTools.Add(StoreManifestTools.Instance);
 
             ClearManifest();
         }
