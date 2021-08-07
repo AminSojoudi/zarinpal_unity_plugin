@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.iOS.Xcode;
 using UnityEngine;
+
+#if UNITY_IOS
+
+using UnityEditor.iOS.Xcode;
 
 
 public class BuildPostProcessor {
@@ -38,3 +41,5 @@ public class BuildPostProcessor {
 		}
 	}
 }
+
+#endif

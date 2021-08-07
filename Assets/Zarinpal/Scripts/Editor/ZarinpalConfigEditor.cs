@@ -30,10 +30,10 @@ public class ZarinpalConfigEditor : Editor
         EditorGUILayout.PropertyField(merchantIDProp);
         EditorGUILayout.PropertyField(autoVerifyProp);
         EditorGUILayout.Space();
-        
+
         var changed = EditorGUI.EndChangeCheck();
 
-        
+
         _mFoldoutAndroid = EditorGUILayout.Foldout(_mFoldoutAndroid, "Android setting");
         if (_mFoldoutAndroid)
         {
@@ -45,7 +45,7 @@ public class ZarinpalConfigEditor : Editor
 
             EditorGUILayout.PropertyField(_schemeProp);
             EditorGUILayout.PropertyField(_hostProp);
-            
+
             changed = EditorGUI.EndChangeCheck();
 
             EditorGUILayout.LabelField(string.Format("{0}://{1}/?Authority=<authority>&Status=OK",
@@ -53,16 +53,16 @@ public class ZarinpalConfigEditor : Editor
                 _hostProp.stringValue));
             EditorGUI.indentLevel--;
         }
-        
-        EditorGUILayout.Space();
-        
 
-        
+        EditorGUILayout.Space();
+
+
+
         _mFoldoutIOS = EditorGUILayout.Foldout(_mFoldoutIOS, "IOS setting");
         if (_mFoldoutIOS)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.LabelField("IOS Sdk version : " +PlayerSettings.iOS.targetOSVersionString);
+            EditorGUILayout.LabelField("IOS Sdk version : " + PlayerSettings.iOS.targetOSVersionString);
             try
             {
                 if (Convert.ToSingle(PlayerSettings.iOS.targetOSVersionString) < 8F)
@@ -82,7 +82,7 @@ public class ZarinpalConfigEditor : Editor
             }
             catch (Exception e)
             {
-                
+
             }
 
             EditorGUI.indentLevel--;
@@ -112,22 +112,7 @@ public class ZarinpalConfigEditor : Editor
         }
         if (GUILayout.Button("Update Manifest & Files"))
         {
-            var pluginDirectoryAndroid = Path.Combine(Application.dataPath, "Plugins/Android");
-            if (!Directory.Exists(pluginDirectoryAndroid))
-            {
-                Directory.CreateDirectory(pluginDirectoryAndroid);
-            }
-            
-            var pluginDirectoryIOS = Path.Combine(Application.dataPath, "Plugins/IOS");
-            if (!Directory.Exists(pluginDirectoryIOS))
-            {
-                Directory.CreateDirectory(pluginDirectoryIOS);
-            }
-            
-            handleZarinpalJars(!_enableProp.boolValue);
-            handleZarinpalIOS(!_enableProp.boolValue);
-            ZarinpalManifestTools.GenerateManifest();
-            AssetDatabase.Refresh();
+            ApplySettings(!_enableProp.boolValue, !_enableProp.boolValue);
             m_changed = false;
         }
 
@@ -142,6 +127,31 @@ public class ZarinpalConfigEditor : Editor
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(target);
         }
+    }
+
+    public static void ApplySettings(bool removeAndroidLibs, bool removeIosLibs, bool addZarrinpalToManifest = true)
+    {
+        var pluginDirectoryAndroid = Path.Combine(Application.dataPath, "Plugins/Android");
+        if (!Directory.Exists(pluginDirectoryAndroid))
+        {
+            Directory.CreateDirectory(pluginDirectoryAndroid);
+        }
+
+        var pluginDirectoryIOS = Path.Combine(Application.dataPath, "Plugins/IOS");
+        if (!Directory.Exists(pluginDirectoryIOS))
+        {
+            Directory.CreateDirectory(pluginDirectoryIOS);
+        }
+
+        handleZarinpalJars(removeAndroidLibs);
+        handleZarinpalIOS(removeIosLibs);
+
+        if (addZarrinpalToManifest)
+        {
+            ZarinpalManifestTools.AddZarrinpalToManifest();
+        }
+
+        AssetDatabase.Refresh();
     }
 
 
@@ -194,10 +204,9 @@ public class ZarinpalConfigEditor : Editor
         {
         }
     }
-    
-    
-    
-        static void handleZarinpalIOS(bool remove)
+
+
+    static void handleZarinpalIOS(bool remove)
     {
         try
         {
@@ -207,52 +216,52 @@ public class ZarinpalConfigEditor : Editor
                                                "/Plugins/IOS/HttpRequest.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/HttpRequest.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/PaymentViewController.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/PaymentViewController.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/URLs.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/URLs.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPal.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPal.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPalPaymentDelegate.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPalPaymentDelegate.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPalSDKPayment.h");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinPalSDKPayment.h.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnity.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnity.swift.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityBridge.mm");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityBridge.mm.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityPlugin-Bridging-Header.h");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityPlugin-Bridging-Header.h.meta");
-                
+
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityWrapper.swift");
                 FileUtil.DeleteFileOrDirectory(Application.dataPath +
                                                "/Plugins/IOS/ZarinpalUnityWrapper.swift.meta");
-                
+
 
             }
             else
@@ -260,34 +269,34 @@ public class ZarinpalConfigEditor : Editor
 
                 string bpRootPath = Application.dataPath +
                                     "/Zarinpal/Templates/IOS/";
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "HttpRequest.swift",
                     Application.dataPath + "/Plugins/IOS/HttpRequest.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "PaymentViewController.swift",
                     Application.dataPath + "/Plugins/IOS/PaymentViewController.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "URLs.swift",
                     Application.dataPath + "/Plugins/IOS/URLs.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinPal.swift",
                     Application.dataPath + "/Plugins/IOS/ZarinPal.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinPalPaymentDelegate.swift",
                     Application.dataPath + "/Plugins/IOS/ZarinPalPaymentDelegate.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinPalSDKPayment.h",
                     Application.dataPath + "/Plugins/IOS/ZarinPalSDKPayment.h");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinpalUnity.swift",
                     Application.dataPath + "/Plugins/IOS/ZarinpalUnity.swift");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinpalUnityBridge.mm",
                     Application.dataPath + "/Plugins/IOS/ZarinpalUnityBridge.mm");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinpalUnityPlugin-Bridging-Header.h",
                     Application.dataPath + "/Plugins/IOS/ZarinpalUnityPlugin-Bridging-Header.h");
-                
+
                 FileUtil.CopyFileOrDirectory(bpRootPath + "ZarinpalUnityWrapper.swift",
                     Application.dataPath + "/Plugins/IOS/ZarinpalUnityWrapper.swift");
             }
@@ -296,7 +305,7 @@ public class ZarinpalConfigEditor : Editor
         {
         }
     }
-        
+
 
     [MenuItem("Zarinpal/Setting")]
     static void ShowConfig()

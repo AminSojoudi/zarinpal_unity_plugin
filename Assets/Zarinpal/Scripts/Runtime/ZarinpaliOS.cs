@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+#if UNITY_IOS
+
 public class ZarinpaliOS : MonoBehaviour,IZarinpalPlatform 
 {
 
@@ -84,10 +86,10 @@ public class ZarinpaliOS : MonoBehaviour,IZarinpalPlatform
 	/// </summary>
 	public event Action PaymentVerificationFailed;
 	
-#pragma warning restore 0067 
+#pragma warning restore 0067
 	
 	
-	    #region Callbacks
+#region Callbacks
 
     private void OnStoreInitialized(string nullMessage)
     {
@@ -178,11 +180,11 @@ public class ZarinpaliOS : MonoBehaviour,IZarinpalPlatform
         */
     }
 
-    #endregion
+#endregion
     
     
     
-    #region C-Extern
+#region C-Extern
 
     [DllImport("__Internal")]
     private static extern void _zu_initialize(string merchantID);
@@ -190,5 +192,8 @@ public class ZarinpaliOS : MonoBehaviour,IZarinpalPlatform
     [DllImport("__Internal")]
     private static extern void _zu_startPurchaseFlow(int amount,string productID,string desc);
 
-    #endregion
+#endregion
 }
+
+#endif
+
